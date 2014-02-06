@@ -5,30 +5,16 @@
 		cols: 3
 	};
 
-	var new_table = document.createElement("table");
-	new_table.id = "main_table";
-	for (var i = config.rows; i > 0; i--) {
-		var row = document.createElement("tr");
-		for (var j = config.cols; j > 0; j--) {
-			var col = document.createElement("td");
-			var sub_table = document.querySelector(".table_template").cloneNode(true);
-			col.appendChild(sub_table);
-			row.appendChild(col);
-		};
-		new_table.appendChild(row);
-	};
-	document.getElementById("sudoku").appendChild(new_table);
+	createSudoku(config)
 
-	var inputs = getAllInputs();
+	var inputs = document.getElementById("sudoku").getElementsByTagName("input");
 	for (var j = inputs.length - 1; j >= 0; j--) {
 		inputs[j].addEventListener("keyup", function() {
 			validateSudoku(this)
 		});
 		inputs[j].addEventListener("keypress", function(e) {
 			var n = (window.Event) ? e.which : e.keyCode;
-			if(n < 49 || n > 57) {
-				e.preventDefault();
-			}
+			if(n < 49 || n > 57) e.preventDefault();
 		});
 	}	
 
@@ -39,55 +25,53 @@
 		}
 	});
 
+	function createSudoku(config) {
+		var new_table = document.createElement("table");
+		for (var i = 1; i <= config.rows * config.rows; i++) {
+			var row = document.createElement("tr");
+			for (var j = 1; j <= config.cols * config.cols; j++) {
+				var col = document.createElement("td");
+				var classes = (j % config.cols == 0 && j != config.cols * config.cols) ? " border-right " : "";
+				classes += (i % config.cols == 0) ? " border-bottom " : "";
+				col.setAttribute("class", "c" + j + " r" + i + " " + classes);
+				col.innerHTML = '<input type="text" maxlength="1" />';
+				row.appendChild(col);
+			};
+			new_table.appendChild(row);
+		};
+		document.getElementById("sudoku").appendChild(new_table);
+	} 
+
 	function validateSudoku(input) {
+		input.setAttribute("class", "");
 		if(input.value == "") return;
 
-		var table_parent = input.parentNode.parentNode.parentNode;
-		var inputs_of_table = table_parent.getElementsByTagName("input");
-		var invalid_counts = 0;
-
-		for (var i = inputs_of_table.length - 1; i >= 0; i--) {
-			input.setAttribute("class", "");
-			if(inputs_of_table[i].value == input.value) {
-				invalid_counts++;
-				if(invalid_counts == 2) {
-					input.setAttribute("class", "invalid");
-					break;
-				}				
-			}
-		};
-
+		var table = input.parentNode.parentNode.parentNode;
 		var input_class_pieces = input.parentNode.getAttribute("class").split(" ");
 		var input_col_class = input_class_pieces[0];
 		var input_row_class = input_class_pieces[1];
+		
+		validateColsAndRows(table.getElementsByClassName(input_row_class), input)
+		validateColsAndRows(table.getElementsByClassName(input_col_class), input)
+	}
 
-		var table_main_tr = table_parent.parentNode.parentNode.parentNode;
-		var values_to_validate_per_row = table_main_tr.getElementsByClassName(input_row_class);
-
+	function validateColsAndRows(values_to_validate, input) {
 		var invalid_counts = 0;
-		for (var i = values_to_validate_per_row.length - 1; i >= 0; i--) {
-			var input_value_row = values_to_validate_per_row[i].getElementsByTagName("input")[0].value;
-			if(input_value_row == input.value) {
+		for (var i = values_to_validate.length - 1; i >= 0; i--) {
+			var input_value = values_to_validate[i].getElementsByTagName("input")[0].value;			
+			if(input_value == input.value) {
 				invalid_counts++;
 				if(invalid_counts == 2) {
 					input.setAttribute("class", "invalid");
-					break;
-				}	
-			}
-		};
-
-	}
-
-	function getAllInputs() {
-		var arrinputs = [];
-		var tables = document.getElementById("sudoku").getElementsByClassName("table_template");
-		for (var i = tables.length - 1; i >= 0; i--) {
-			var inputs = tables[i].getElementsByTagName("input");
-			for (var j = inputs.length - 1; j >= 0; j--) {
-				arrinputs.push(inputs[j]);
+					return false;
+				}
 			}
 		}
-		return arrinputs;
+		return true;
+	}
+
+	function validateSquare(input) {
+
 	}
 
 })();
