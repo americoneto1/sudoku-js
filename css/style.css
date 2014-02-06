@@ -16,23 +16,19 @@ h1 {
 	line-height: 2em;
 }
 
-hr {
-	margin: 20px 0;
-}
-
-table, td {
+#sudoku table, td {
 	border-collapse: collapse;
 	border: 1px solid #000;
 }
 
-.border-right {
+#sudoku table .border-right {
 	border-right: 2px solid #000;
 }
-.border-bottom {
+#sudoku table .border-bottom {
 	border-bottom: 2px solid #000;
 }
 
-input {
+#sudoku input {
 	border: none;
 	text-align: center;
 	width: 100%;
@@ -40,6 +36,70 @@ input {
 	display: block;
 }
 
-.invalid {
+.levels {
+	text-align: center;
+	margin: 20px auto;
+}
+
+.levels li {
+	display: inline;
+}
+
+.btn {
+	cursor: pointer;
+	width: 100px;
+	line-height: 2em;
+	border-radius: 10px;
+	color: #FFF;
+}
+
+.levels li button:hover {
+	opacity: 0.8;
+}
+
+.levels li button#btnEasy {	
+	background-color: #47a447;
+	border-color: #398439;
+}
+
+.levels li button#btnMedium {	
+	background-color: #ed9c28;
+	border-color: #d58512;
+}
+
+.levels li button#btnHard {	
+	background-color: #d2322d;
+	border-color: #ac2925;
+}
+
+#sudoku .invalid {
 	background-color: red;
+}
+
+#final_message {	
+	background-color: #CCC;
+	width: 480px;
+	position: absolute;
+	top: 200px;
+	text-align: center;
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: 3px 3px 3px #888;
+}
+
+#final_message p {	
+	line-height: 2em;
+}
+
+#final_message button {
+	background-color: #3276b1;
+	border-color: #285e8e;
+}
+
+.opacity {
+	opacity: 0.5;
+}
+
+.hide {
+	display: none;
 }

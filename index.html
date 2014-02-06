@@ -10,9 +10,17 @@
 	<div id="sudoku">
 	</div>
 
-	<hr />
-	<button id="btnLimpar" type="button">Limpar</button>
+	<ul class="levels">
+		<li><button id="btnEasy" class="btn" type="button">Easy</button></li>
+		<li><button id="btnMedium" class="btn" type="button">Medium</button></li>
+		<li><button id="btnHard" class="btn" type="button">Hard</button></li>
+	</ul>
 
+	<div id="final_message" class="hide">
+		<p>Congratulations</p>
+		<button id="btnClose" class="btn" type="button">OK</button>
+	</div>
+	
 	<script type="text/javascript" src="js/sudoku.js"></script>
 </body>
 </html>
